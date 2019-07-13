@@ -55,12 +55,12 @@ and build with gradle
 
 Start the GUI: Device is autodetected (macOS) or hardcoded (other):
 
-    $ twobgui.jar
+    $ java -jar twobgui.jar
 
 Start the GUI and set a device (eg. `/dev/tty.xxx` or `COM3:`):
 
-    $ twobgui.jar device
+    $ java -jar twobgui.jar device
     
 Start the GUI with a fake device and a device version. By setting a version you can dry-test the gui, "connect" always succeeds:
 
-    $ twobgui.jar fake-device version
+    $ java -jar twobgui.jar fake-device version
