@@ -27,7 +27,8 @@ GNU General Public License for more details.
 
 # License
 
-This project is licensed under the terms of the [GNU General Public License v3.0 or later](https://www.gnu.org/licenses/gpl-3.0).
+twobgui is licensed under the terms of the GNU General Public License version 3 or any later version.
+See the file LICENSE or visit [https://www.gnu.org/licenses/gpl-3.0](https://www.gnu.org/licenses/gpl-3.0) for details.
 
 # Acknowledgements
 
