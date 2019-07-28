@@ -11,6 +11,7 @@ public class TwoBState {
     private int battery;
     private String power;
     private int joinedChannels;
+    private int m = -1;
     private String version = "n/a";
 
     public TwoBState(TwoBModeConfig modeConfig, TwoBMode mode, TwoBChannels twoBChannels, int battery, String power, int joinedChannels) {
@@ -20,6 +21,7 @@ public class TwoBState {
         this.battery = battery;
         this.power = power;
         this.joinedChannels = joinedChannels;
+        this.m = -1; // TODO implement
         this.version = modeConfig.getVersion();
     }
 
@@ -117,7 +119,14 @@ public class TwoBState {
             mode = modeConfig.convert(Integer.parseInt(replyArray[5]));
             power = replyArray[6];
             joinedChannels = Integer.parseInt(replyArray[7]);
-            version = replyArray[8];
+
+            if (replyArray.length == 10) {
+                // new format with additional field
+                m = Integer.parseInt(replyArray[8]);
+                version = replyArray[9];
+            } else {
+                version = replyArray[8];
+            }
             if (TwoBDevice.DEBUG) System.out.println("State: " + this.toString());
         } catch (NumberFormatException e) {
             // ignore ill formatted response
@@ -128,7 +137,11 @@ public class TwoBState {
 
     @Override
     public String toString() {
-        return mode + ": " + twoBChannels + ", P: " + power;
+        if (m == -1) {
+            return mode + ": " + twoBChannels + ", P: " + power;
+        } else {
+            return mode + ": " + twoBChannels + ", M: " + (char) (m + 'A') + ", P: " + power;
+        }
     }
 }
 

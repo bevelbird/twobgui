@@ -228,6 +228,7 @@ public class TwoBDevice {
             int bytesRead = inStream.read(b);
             // 541:40:0:40:40:2:L:0:2.106
             // 32772:0:0:100:100:0:L:0:2.116B
+            // 49664:0:0:100:100:0:L:0:0:2.118B
 
             if (DEBUG) System.out.println(" (" + bytesRead + " bytes)");
 
