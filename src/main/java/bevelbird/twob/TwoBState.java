@@ -121,7 +121,8 @@ public class TwoBState {
             if (TwoBDevice.DEBUG) System.out.println("State: " + this.toString());
         } catch (NumberFormatException e) {
             // ignore ill formatted response
-            // no state value changed
+            // no state value changed // TODO state possibly already partially changed
+            if (TwoBDevice.DEBUG) System.out.println("NumberFormatException: " + reply);
         }
     }
 
