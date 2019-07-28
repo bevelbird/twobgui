@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'bevelbird'
-version '0.1'
+version '0.2'
 
 // application plugin
 mainClassName = 'bevelbird.twob.ui.TwoBGui'
