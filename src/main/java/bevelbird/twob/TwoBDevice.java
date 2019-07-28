@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  */
 public class TwoBDevice {
 
-    private static final boolean DEBUG = false;
+    static final boolean DEBUG = false;
 
     private static final int BAUD_RATE = 9600;
 

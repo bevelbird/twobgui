@@ -118,6 +118,7 @@ public class TwoBState {
             power = replyArray[6];
             joinedChannels = Integer.parseInt(replyArray[7]);
             version = replyArray[8];
+            if (TwoBDevice.DEBUG) System.out.println("State: " + this.toString());
         } catch (NumberFormatException e) {
             // ignore ill formatted response
             // no state value changed
