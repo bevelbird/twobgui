@@ -62,6 +62,25 @@ Start the GUI and set a device (eg. `/dev/tty.xxx` or `COM3:`):
 
     $ java -jar twobgui.jar device
     
+or (versions newer than 0.2-alpha)
+    
+    $ java -jar twobgui.jar -device <device>
+
+#### Versions newer than 0.2-alpha
+
+Start the GUI and add an additional mode configuration (for different firmware versions):
+
+    $ java -jar twobgui.jar -modesfile <mode-config-file.txt>
+
+Start the GUI with a fake firmware version. By setting a (fake-)version you can dry-test the gui,
+"connect" always succeeds, the device is ignored:
+
+    $ java -jar twobgui.jar -version <fake-version>
+    $ java -jar twobgui.jar -version <fake-version> -modesfile <mode-config-file.txt>
+    $ java -jar twobgui.jar -device <device> -version <fake-version> -modesfile <mode-config-file.txt>
+
+#### Version 0.2-alpha
+
 Start the GUI with a fake device and a device version. By setting a version you can dry-test the gui, "connect" always succeeds:
 
     $ java -jar twobgui.jar fake-device version
