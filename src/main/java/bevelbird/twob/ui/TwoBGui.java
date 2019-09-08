@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -40,7 +42,9 @@ public class TwoBGui {
 
     private static final String APP_NAME = "2B Controller";
 
-    private TwoB twoB = new TwoB();
+    private ModeManager modeManager = new ModeManager();
+
+    private TwoB twoB = new TwoB(modeManager);
 
     private ChannelValue channelValueA;
     private ChannelValue channelValueB;
@@ -660,17 +664,83 @@ public class TwoBGui {
         return panel;
     }
 
+    public void addModeConfig(String filename) {
+        modeManager.addExternalModeConfig(filename);
+    }
+
+    private static Map<String, String> parseCommandline(String[] args) {
+        Map<String, String> cmds = new HashMap<>();
+
+        int pos = 0;
+        while (pos < args.length) {
+            switch (args[pos]) {
+                case "-device":
+                    pos = parseOption(args, cmds, pos, "device");
+                    break;
+
+                case "-version":
+                    pos = parseOption(args, cmds, pos, "version");
+                    break;
+
+                case "-modesfile":
+                    pos = parseOption(args, cmds, pos, "modesfile");
+                    break;
+
+                default:
+                    break;
+            }
+            pos++;
+        }
+
+        return cmds;
+    }
+
+    private static int parseOption(String[] args, Map<String, String> cmds, int pos, String option) {
+        if (pos < args.length - 1) {
+            if (!args[pos + 1].startsWith("-")) {
+                cmds.put(option, args[pos + 1]);
+            }
+            pos++;
+        }
+        return pos;
+    }
+
     public static void main(String[] args) {
         // twobgui (device is autodetected (macOS) or hardcoded (other))
-        // twobgui device
-        // twobgui device version (by setting version you can dry-test the gui, "connect" always succeeds)
+
+        // twobgui <device>
+        // or
+        // twobgui -device <device>
+
+        // twobgui -modesfile <mode-config-file.txt>
+        // add an additional mode configuration (for different firmware)
+
+        // twobgui -version <fake-version>
+        // twobgui -version <fake-version> -modesfile <mode-config-file.txt>
+        // twobgui -device <device> -version <fake-version> -modesfile <mode-config-file.txt>
+        // by setting a (fake-)version you can dry-test the gui, "connect" always succeeds, device is ignored
+
         TwoBGui gui = new TwoBGui();
-        if (args.length == 2) {
-            gui.show(args[0], args[1]);
+        if (args.length == 0) {
+            gui.show(null);
         } else if (args.length == 1) {
             gui.show(args[0]);
         } else {
-            gui.show(null);
+            Map<String, String> cmds = parseCommandline(args);
+            cmds.entrySet().forEach(e -> System.out.println(e.getKey() + ": " + e.getValue()));
+
+            if (cmds.containsKey("modesfile")) {
+                gui.addModeConfig(cmds.get("modesfile"));
+            }
+
+            if (cmds.containsKey("version")) {
+                gui.show("dummyUSB", cmds.get("version"));
+            } else if (cmds.containsKey("device")) {
+                gui.show(cmds.get("device"));
+            } else {
+                gui.show(null);
+            }
         }
     }
+
 }

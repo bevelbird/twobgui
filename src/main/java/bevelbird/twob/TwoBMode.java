@@ -44,4 +44,9 @@ public class TwoBMode {
     public String toString() {
         return name;
     }
+
+    public String toLongString() {
+        return name + "[" + code + "] C" + getChannelDetailsC() + " - D" + getChannelDetailsD();
+    }
+
 }

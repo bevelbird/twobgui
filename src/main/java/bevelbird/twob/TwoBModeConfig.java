@@ -3,9 +3,6 @@
 // Copyright (C) 2019 bevelbird
 package bevelbird.twob;
 
-import bevelbird.twob.mode.ReleaseModes_2106;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,15 +10,14 @@ public class TwoBModeConfig {
 
     private final String version;
 
-    private final List<TwoBMode> modes = new ArrayList<>();
+    private final String options;
 
-    /**
-     * Constructs a TwoBModeConfig with modes depending on version parameter.
-     */
-    public TwoBModeConfig(String version) {
+    private final List<TwoBMode> modes;
+
+    public TwoBModeConfig(String version, String options, List<TwoBMode> modes) {
         this.version = version;
-        // Currently hardcoded
-        ReleaseModes_2106.getAvailableModes().forEach(m -> modes.add(m.getTwoBMode()));
+        this.options = options;
+        this.modes = modes;
     }
 
     /**
@@ -55,5 +51,9 @@ public class TwoBModeConfig {
 
     public String getVersion() {
         return version;
+    }
+
+    public String getOptions() {
+        return options;
     }
 }

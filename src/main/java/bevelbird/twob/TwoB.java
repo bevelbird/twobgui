@@ -24,19 +24,25 @@ import java.util.List;
  */
 public class TwoB {
 
+    private ModeManager modeManager;
+
     private TwoBDevice twoBDevice = new TwoBDevice("unknown"); // dummy
 
     // DEVICE FAKE - Version set via commandline to test release/beta switch
     private String fakeVersion;
 
-    // Initially use a mode configuration for a release firmware (defaults to release 2.105/2.106)
-    private TwoBModeConfig modeConfig = new TwoBModeConfig("2.106");
+    private TwoBModeConfig modeConfig;
 
-    // pre-assign an intermediate state (without concrete version)
-    private TwoBState state = new TwoBState(modeConfig, TwoBMode.NONE, new TwoBChannels(), -1, "n/a", -1);
+    private TwoBState state;
 
-    public TwoB() {
-        // empty
+    public TwoB(ModeManager modeManager) {
+        this.modeManager = modeManager;
+
+        // Initially use a mode configuration for a release firmware (defaults to release 2.106)
+        modeConfig = modeManager.getDefaultTwoBModeConfig();
+
+        // Pre-assign an intermediate state (without concrete version)
+        state = new TwoBState(modeConfig, TwoBMode.NONE, new TwoBChannels(), -1, "n/a", -1);
     }
 
     public void setDevice(String device) {
@@ -61,12 +67,16 @@ public class TwoB {
         // Gets the TwoBState
         boolean nop = twoBDevice.sendNop(state);
 
-        // create mode config based on device version
-        modeConfig = new TwoBModeConfig(state.getVersion());
+        // Get a matching mode config for the device version
+        modeConfig = modeManager.getTwoBModeConfig(state.getVersion());
 
         if (fakeVersion != null) {
             // DEVICE FAKE
-            modeConfig = new TwoBModeConfig(fakeVersion);
+            modeConfig = modeManager.getTwoBModeConfig(fakeVersion);
+            // If no config for fake version is available we get the default as a fallback.
+            // This default has a wrong version identifier.
+            // We "correct" this to show the fake version instead:
+            modeConfig = new TwoBModeConfig(fakeVersion, "", modeConfig.getAvailableModes());
         }
 
         // reconfigure the state with the mode config

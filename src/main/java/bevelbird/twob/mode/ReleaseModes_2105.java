@@ -5,13 +5,14 @@ package bevelbird.twob.mode;
 
 import bevelbird.twob.TwoBMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static bevelbird.twob.mode.ChannelDetails.*;
 
-public enum ReleaseModes_2106 {
+public enum ReleaseModes_2105 {
 
     PULSE(0, RATE_C_SLOW_FAST, FEEL_D_SMOOTH_HARD), // GUI: 1
     BOUNCE(1, RATE_C_SLOW_FAST, FEEL_D_SMOOTH_HARD), // GUI: 2
@@ -28,11 +29,13 @@ public enum ReleaseModes_2106 {
     STEP(12, new ChannelDetails("Step (C)", "Short", "Long"), FEEL_D_SMOOTH_HARD),
     TRAINING(13, new ChannelDetails("Step (C)", "Short", "Long"), FEEL_D_SMOOTH_HARD);
 
-    public static final String VERSION = "2.106"; // 2.105 too
+    public static final String VERSION = "2.105"; // 2.106 too
+
+    public static final String OPTIONS = ""; // none
 
     private TwoBMode twoBMode;
 
-    ReleaseModes_2106(int code, ChannelDetails channelC, ChannelDetails channelD) {
+    ReleaseModes_2105(int code, ChannelDetails channelC, ChannelDetails channelD) {
         this.twoBMode = new TwoBMode(code, this.name(), channelC, channelD);
     }
 
@@ -43,7 +46,13 @@ public enum ReleaseModes_2106 {
     /**
      * Get a list of available modes for firmware 2.106.
      */
-    public static List<ReleaseModes_2106> getAvailableModes() {
-        return Arrays.stream(ReleaseModes_2106.values()).collect(Collectors.toList());
+    public static List<ReleaseModes_2105> getAvailableModes() {
+        return Arrays.stream(ReleaseModes_2105.values()).collect(Collectors.toList());
+    }
+
+    public static List<TwoBMode> getAvailableTwoBModes() {
+        List<TwoBMode> modes = new ArrayList<>();
+        ReleaseModes_2105.getAvailableModes().forEach(m -> modes.add(m.getTwoBMode()));
+        return modes;
     }
 }

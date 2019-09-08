@@ -78,4 +78,17 @@ public class ChannelDetails {
     public String getHigh() {
         return high;
     }
+
+    @Override
+    public String toString() {
+        if (this == INVISIBLE) {
+            return "[invisible]";
+        }
+        if (low == null || low.trim().isEmpty() ||
+                high == null || high.trim().isEmpty()) {
+            return "[" + title + "]";
+        }
+        return "[" + title + ": " + low + " / " + high + "]";
+    }
+
 }
