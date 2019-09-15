@@ -6,13 +6,14 @@ package bevelbird.twob;
 public class TwoBState {
 
     private TwoBModeConfig modeConfig;
+    private int modeRaw;
     private TwoBMode mode;
     private TwoBChannels twoBChannels;
     private int battery;
     private String power;
     private int joinedChannels;
     private int m = -1;
-    private String version = "n/a";
+    private String version;
 
     public TwoBState(TwoBModeConfig modeConfig, TwoBMode mode, TwoBChannels twoBChannels, int battery, String power, int joinedChannels) {
         this.modeConfig = modeConfig;
@@ -28,6 +29,9 @@ public class TwoBState {
     public void updateTwoBModeConfig(TwoBModeConfig modeConfig) {
         this.modeConfig = modeConfig;
         this.version = modeConfig.getVersion();
+
+        // convert raw mode to corresponding mode in the new mode config
+        mode = modeConfig.convert(modeRaw);
     }
 
     /**
@@ -116,6 +120,7 @@ public class TwoBState {
             twoBChannels.C.setValue(Integer.parseInt(replyArray[3]) / 2);
             twoBChannels.D.setValue(Integer.parseInt(replyArray[4]) / 2);
 
+            modeRaw = Integer.parseInt(replyArray[5]);
             mode = modeConfig.convert(Integer.parseInt(replyArray[5]));
             power = replyArray[6];
             joinedChannels = Integer.parseInt(replyArray[7]);
