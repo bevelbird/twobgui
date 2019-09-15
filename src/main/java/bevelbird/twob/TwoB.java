@@ -65,7 +65,7 @@ public class TwoB {
         boolean success = twoBDevice.connect();
 
         // Gets the TwoBState
-        boolean nop = twoBDevice.sendNop(state);
+        boolean noop = twoBDevice.sendNoop(state);
 
         // Get a matching mode config for the device version
         modeConfig = modeManager.getTwoBModeConfig(state.getVersion());
@@ -83,7 +83,7 @@ public class TwoB {
         state.updateTwoBModeConfig(modeConfig);
 
         // if DEVICE FAKE, return true, too
-        return (success && nop) || (fakeVersion != null);
+        return (success && noop) || (fakeVersion != null);
     }
 
     /**

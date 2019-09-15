@@ -163,7 +163,7 @@ public class TwoBDevice {
      * @param twoBState the state filled with the result of the command if return is {@code true}
      * @return {@code true} if send successful
      */
-    public boolean sendNop(TwoBState twoBState) {
+    public boolean sendNoop(TwoBState twoBState) {
         boolean oldLogCommunication = logCommunication;
         logCommunication = false;
 
