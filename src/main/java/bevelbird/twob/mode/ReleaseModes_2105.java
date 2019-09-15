@@ -43,16 +43,11 @@ public enum ReleaseModes_2105 {
         return twoBMode;
     }
 
-    /**
-     * Get a list of available modes for firmware 2.106.
-     */
-    public static List<ReleaseModes_2105> getAvailableModes() {
-        return Arrays.stream(ReleaseModes_2105.values()).collect(Collectors.toList());
-    }
-
     public static List<TwoBMode> getAvailableTwoBModes() {
         List<TwoBMode> modes = new ArrayList<>();
-        ReleaseModes_2105.getAvailableModes().forEach(m -> modes.add(m.getTwoBMode()));
+        for (ReleaseModes_2105 m : values()) {
+            modes.add(m.getTwoBMode());
+        }
         return modes;
     }
 }

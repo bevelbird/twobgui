@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 public class StatusValue {
 
     public enum Status {
-        INFO, OK, ERROR
+        INFO, OK, ERROR, WARN
     }
 
     private BiFunction<String, Status, Boolean> fn;

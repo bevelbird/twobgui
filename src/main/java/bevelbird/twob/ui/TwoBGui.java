@@ -160,25 +160,25 @@ public class TwoBGui {
             }
 
             boolean succes;
-            String power;
+            String powerStatusLog;
 
             switch (p) {
                 default:
                 case "Low":
-                    power = "Set power to low";
+                    powerStatusLog = "Set power to low";
                     succes = twoB.setPowerLow();
                     break;
 
                 case "High":
-                    power = "Set power to high";
+                    powerStatusLog = "Set power to high";
                     succes = twoB.setPowerHigh();
                     break;
             }
 
             if (succes) {
-                statusValue.setText(power, StatusValue.Status.OK);
+                statusValue.setText(powerStatusLog, StatusValue.Status.OK);
             } else {
-                statusValue.setText(power + " failed", StatusValue.Status.ERROR);
+                statusValue.setText(powerStatusLog + " failed", StatusValue.Status.ERROR);
             }
             updateGui();
 
@@ -511,7 +511,7 @@ public class TwoBGui {
         });
         modeValueManager.registerComboBox(modeChooser);
 
-        UIHelper.addGB(panel, modeChooserPanel, 1, 0, new Insets(0, 0, 0, 10));
+        UIHelper.addGB(panel, modeChooserPanel, 0, 0, new Insets(0, 0, 0, 10));
 
         // Power Setting
         JPanel powerSettingPanel = new JPanel();
@@ -534,13 +534,13 @@ public class TwoBGui {
         powerValueManager.registerComboBox(powerChooser);
 
 
-        UIHelper.addGB(panel, powerSettingPanel, 2, 0, new Insets(0, 0, 0, 10));
+        UIHelper.addGB(panel, powerSettingPanel, 1, 0, new Insets(0, 0, 0, 10));
 
         return panel;
     }
 
     private JPanel createConnectionComponent(SelectionListValue<String> connectionValueManager, ActionListener
-            listener, TextValue versionValue) {
+            connectButtonListener, TextValue versionValue) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         // panel.setBackground(Color.LIGHT_GRAY); //-- DEBUG
@@ -572,7 +572,7 @@ public class TwoBGui {
         JButton connectButton = new JButton("Connect");
         connectButton.setPreferredSize(new Dimension(100, 20));
 
-        connectButton.addActionListener(listener);
+        connectButton.addActionListener(connectButtonListener);
 
         if (connectionValueManager.getAvailableValues().length == 0) {
             // no entries to choose
@@ -652,6 +652,10 @@ public class TwoBGui {
 
                 case ERROR:
                     statusLabel.setForeground(Color.RED);
+                    break;
+
+                case WARN:
+                    statusLabel.setForeground(Color.PINK);
                     break;
 
             }
